@@ -1,7 +1,7 @@
 import React from "react";
 import useTheme from "../hooks/useTheme";
 
-function ThemeController() {
+function ThemeController({className}) {
 
   const [theme, setTheme] = useTheme();
 
@@ -13,7 +13,7 @@ function ThemeController() {
 
 
   return (
-    <label className="swap swap-rotate">
+    <label className={`swap swap-rotate ${className}`}>
       {/* this hidden checkbox controls the state */}
       <input type="checkbox"
         checked={theme === 'cupcake'}
@@ -22,7 +22,7 @@ function ThemeController() {
 
       {/* sun icon */}
       <svg
-        className="swap-on h-10 w-10 fill-current"
+        className="swap-on h-7 w-7 fill-current"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -31,7 +31,7 @@ function ThemeController() {
 
       {/* moon icon */}
       <svg
-        className="swap-off h-10 w-10 fill-current"
+        className="swap-off h-7 w-7 fill-current"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

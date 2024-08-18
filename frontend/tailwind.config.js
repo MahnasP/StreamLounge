@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
-import { forest } from 'daisyui/src/theming/themes';
+import { forest, cupcake } from 'daisyui/src/theming/themes';
 
 
 export default {
@@ -23,9 +23,16 @@ export default {
           accent:"#45A29E",
         neutral: "#66FCF1",
         "--btn-focus-scale": "0.85",
-        }
+        },
     },
-      "cupcake",
+      // "cupcake",
+      {
+        cupcake: {
+          ...cupcake,
+          primary: "#258f77",
+          accent:"#45A29E",
+        }
+      }
     ],
   },
   plugins: [daisyui],

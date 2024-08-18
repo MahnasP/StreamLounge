@@ -11,12 +11,12 @@ export const elements = [
         name: "Dashboard",
     },
     {
-        link: "/",
+        link: "/search",
         icon: <MdSearch className=" mx-2" size={"2em"}/>,
         name: "Search",
     },
     {
-        link: "/",
+        link: "/favorites",
         icon: <GrFavorite className=" mx-2" size={"2em"}/>,
         name: "Favorites",
     },
@@ -28,6 +28,7 @@ export const buttons = [
         icon: <SlCloudUpload className=" mx-2" size={"2em"}/>,
         name: "Upload",
     },
+    
     {
         fun: ()=> console.log("Logout"),
         icon: <TbLogout2 className=" mx-2" size={"2em"}/>,

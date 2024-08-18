@@ -3,34 +3,27 @@ import "./App.css";
 import PageLoading from "./components/PageLoading";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import { motion } from "framer-motion";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000); // 3 seconds
-
-    // Clean up the timer when the component unmounts
-    return () => clearTimeout(timer);
-  }, []);
+  const [sidebaropen, setSidebarOpen] = useState(true);
 
   return (
     <>
-      {loading ? (
-        <div className=" flex justify-center items-center h-screen w-full">
-          <PageLoading />
-        </div>
-      ) : (
-        <div className="relative flex justify-center items-center h-screen w-full overflow-hidden">
-          <Sidebar />
+      <div className="flex justify-center items-center h-screen w-full overflow-hidden">
+        <Sidebar open={sidebaropen} setOpen={setSidebarOpen} />
+
+        <motion.div
+          layout
+          className="relative h-full w-full flex flex-col items-center"
+        >
+          <Navbar open={sidebaropen} setOpen={setSidebarOpen} />
 
           {/* add router outlet here */}
-          <h1 className=" text-2xl ">content</h1>
-            
-        </div>
-      )}
+          <Outlet />
+        </motion.div>
+      </div>
     </>
   );
 }
