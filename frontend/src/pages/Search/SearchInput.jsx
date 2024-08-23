@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 
-function SearchInput({searchText,setSearchText}) {
+function SearchInput({searchText,setSearchText,setLoading}) {
 
     
 
   return (
     <label className="input input-bordered flex items-center gap-2">
-  <input type="text" className="grow" placeholder="Search" value={searchText} onChange={(e)=> setSearchText(e.target.value)} />
+      <input type="text" className="grow" placeholder="Search" value={searchText} onChange={(e) => {
+        setSearchText(e.target.value);
+        //setLoading(true)
+      }} />
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"
