@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function TopResultCard({ className }) {
     return (
-        <div className={`transition-all max-w-lg max-lg:max-w-sm ${className} hover:-translate-y-1 hover:brightness-105`} >
+        <div className={`h-[min-content] transition-all max-w-lg max-lg:max-w-sm ${className} hover:-translate-y-1 hover:brightness-105`} >
       <Link>
         <div className="card lg:card-side bg-base-100 shadow-xl ">
           <figure>

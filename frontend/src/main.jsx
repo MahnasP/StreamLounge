@@ -13,13 +13,15 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import Favorites from './pages/Favorites/Favorites.jsx';
 import Search from './pages/Search/Search.jsx';
 import PageLoading from './components/PageLoading.jsx';
+import DisplayPodcast from './pages/DisplayPodcast/DisplayPodcast.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route path='/' element={<Dashboard />} />
       <Route path='/favorites' element={<Favorites />} />
-      <Route path='/search' element={<Search/>}/>
+      <Route path='/search' element={<Search />} />
+      <Route path='/displaypodcasts/:type' element={<DisplayPodcast/>}/>
       </Route>
   )
 );

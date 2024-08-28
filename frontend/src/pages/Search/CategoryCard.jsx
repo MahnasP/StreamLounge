@@ -4,7 +4,7 @@ function CategoryCard({ category }) {
   return (
     <div
       className={`group w-36 h-36 md:w-64 rounded-lg p-4 ${category.color} 
-        hover:cursor-pointer hover:-translate-y-2 transition-all duration-400 
+        hover:cursor-pointer hover:-translate-y-2 transition-all duration-300 
         ease-in-out hover:shadow-lg hover:brightness-125 active:scale-95 overflow-y-clip`}
     >
       <div className="text-neutral-50 text-xl font-semibold max-lg:text-lg">
