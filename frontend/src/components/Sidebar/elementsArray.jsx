@@ -24,7 +24,7 @@ export const elements = [
 
 export const buttons = [
     {
-        fun: ()=> console.log("upload"),
+        fun: ()=>document.getElementById('upload_modal').showModal(),
         icon: <SlCloudUpload className=" mx-2" size={"2em"}/>,
         name: "Upload",
     },

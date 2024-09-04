@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import { motion } from "framer-motion";
+import Upload from "./components/upload/Upload";
 
 function App() {
   const [sidebaropen, setSidebarOpen] = useState(true);
@@ -13,7 +14,8 @@ function App() {
     <>
       <div className="flex justify-center items-center h-screen w-full overflow-hidden">
         <Sidebar open={sidebaropen} setOpen={setSidebarOpen} />
-
+        
+        <Upload/>
         <motion.div
           layout
           className="relative h-full w-full flex flex-col items-center"

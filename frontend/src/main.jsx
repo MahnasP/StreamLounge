@@ -14,11 +14,13 @@ import Favorites from './pages/Favorites/Favorites.jsx';
 import Search from './pages/Search/Search.jsx';
 import PageLoading from './components/PageLoading.jsx';
 import DisplayPodcast from './pages/DisplayPodcast/DisplayPodcast.jsx';
+import PlayerWrapper from './components/videoplayer/PlayerWrapper.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route path='/' element={<Dashboard />} />
+      <Route path='/videoplay' element={<PlayerWrapper/>} />
       <Route path='/favorites' element={<Favorites />} />
       <Route path='/search' element={<Search />} />
       <Route path='/displaypodcasts/:type' element={<DisplayPodcast/>}/>

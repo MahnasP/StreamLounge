@@ -58,7 +58,7 @@ function Sidebar({ open, setOpen }) {
 
           <ul className="menu">
             {buttons.map((ele, ind) => (
-              <li className="my-3" key={ind}>
+              <li className="my-3" key={ind} onClick={ele.fun}>
                 <a>
                   {ele.icon}
                   <h3 className="font-semibold text-md">{ele.name}</h3>
