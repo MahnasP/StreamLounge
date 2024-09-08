@@ -7,6 +7,9 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import { exec } from "child_process";
+import upload from "./src/middlewares/multer.middleware";
+import authRoutes from "./src/routes/auth.routes";
+import userRoutes from "./src/routes/user.routes";
 
 dotenv.config({
   path: "./.env",
@@ -14,7 +17,7 @@ dotenv.config({
 
 const __dirname = path.resolve();
 
-const port = 3000;
+const port = process.env.PORT||3000;
 const app = express();
 
 app.use(express.json());
@@ -37,55 +40,21 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//       "Access-Control-Allow-Headers",
-//       "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-//     res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-//     next();
-//   });
-
 // Error handling middleware
-app.use((err, req, res, next) => {
-  if (err instanceof multer.MulterError) {
-    // Multer error occurred when uploading
-    res.status(400).send(err.message);
-  } else if (err) {
-    // Unknown error occurred
-    res.status(400).send(err.message);
-  }
-});
+// app.use((err, req, res, next) => {
+//   if (err instanceof multer.MulterError) {
+//     // Multer error occurred when uploading
+//     res.status(400).send(err.message);
+//   } else if (err) {
+//     // Unknown error occurred
+//     res.status(400).send(err.message);
+//   }
+// });
 
-//multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + uuidv4() + path.extname(file.originalname));
-  },
-});
-const allowedVideoTypes = [".mp4", ".mkv", ".avi", ".mov", ".flv"];
+app.use("/api/auth",authRoutes);
+app.use("/api/user",userRoutes);
 
-// File filter function
-const fileFilter = (req, file, cb) => {
-  // Extract the file extension
-  const ext = path.extname(file.originalname).toLowerCase();
 
-  // Check if the file extension is in the list of allowed video formats
-  if (allowedVideoTypes.includes(ext)) {
-    cb(null, true); // Accept the file
-  } else {
-    cb(new Error("Invalid file type. Only video files are allowed."), false); // Reject the file
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-});
 
 app.post("/upload", upload.single("file"), (req, res) => {
   console.log("file uploaded");
