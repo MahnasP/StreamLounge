@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoCloseOutline } from "react-icons/io5";
 import { buttons, elements } from "./elementsArray";
-import Element from "./Element";
 import { Link } from "react-router-dom";
-import ThemeController from "../ThemeController";
+import { useAuth0 } from "@auth0/auth0-react";
+import { TbLogout2 } from "react-icons/tb";
+
+
 
 const bar = {
   visible: { opacity: 1, x: 0 },
@@ -12,6 +14,7 @@ const bar = {
 };
 
 function Sidebar({ open, setOpen }) {
+  const { logout,isAuthenticated } = useAuth0();
   return (
     <AnimatePresence mode="wait">
       {open && (
@@ -65,6 +68,12 @@ function Sidebar({ open, setOpen }) {
                 </a>
               </li>
             ))}
+            {isAuthenticated && <li className="my-3"  onClick={()=> logout({ logoutParams: { returnTo: window.location.origin } })}>
+                <a>
+                <TbLogout2 className=" mx-2" size={"2em"}/>
+                  <h3 className="font-semibold text-md">Log Out</h3>
+                </a>
+              </li>}
           </ul>
 
           {/* {elements.map((ele,ind) => (

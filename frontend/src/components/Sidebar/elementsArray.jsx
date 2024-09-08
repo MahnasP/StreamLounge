@@ -4,6 +4,7 @@ import { GrFavorite } from "react-icons/gr";
 import { SlCloudUpload } from "react-icons/sl";
 import { TbLogout2 } from "react-icons/tb";
 
+
 export const elements = [
     {
         link: "/",
@@ -29,11 +30,7 @@ export const buttons = [
         name: "Upload",
     },
     
-    {
-        fun: ()=> console.log("Logout"),
-        icon: <TbLogout2 className=" mx-2" size={"2em"}/>,
-        name: "Log Out",
-    },
+    
 ];
 
 

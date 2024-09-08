@@ -3,8 +3,10 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
 import ThemeController from "../ThemeController";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Navbar({ open, setOpen }) {
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   return (
     <motion.div
       className="sticky top-0 navbar bg-base justify-between"
@@ -39,12 +41,13 @@ function Navbar({ open, setOpen }) {
       
       <div className="flex-none mr-5">
         <ThemeController/>
-        <motion.button
+        {!isAuthenticated && <motion.button
           whileTap={{ scale: 0.75, rotate: "5deg" }}
           className="btn btn-outline btn-primary ml-4"
+          onClick={() => loginWithRedirect()}
         >
           Login
-        </motion.button>
+        </motion.button>}
       </div>
       
     </motion.div>
