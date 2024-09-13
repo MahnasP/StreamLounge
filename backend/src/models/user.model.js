@@ -10,5 +10,21 @@ const userShema = new Schema({
         type: String,
         required: true,
         unique: true,
+    },
+    profilepic: {
+        type: String,
+        default: "",
+    },
+    podcasts: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Podcast",
+        default: [],
+    },
+    favorites: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Podcast",
+        default:[],
     }
-},{timestamps: true});
+}, { timestamps: true });
+
+export const User = mongoose.model("User", userShema);
