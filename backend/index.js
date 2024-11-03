@@ -7,9 +7,10 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import { exec } from "child_process";
-import upload from "./src/middlewares/multer.middleware";
-import authRoutes from "./src/routes/auth.routes";
-import userRoutes from "./src/routes/user.routes";
+import upload from "./src/middlewares/multer.middleware.js";
+import authRoutes from "./src/routes/auth.routes.js";
+import userRoutes from "./src/routes/user.routes.js";
+import connectDB from "./src/db/index.js";
 
 dotenv.config({
   path: "./.env",
@@ -101,6 +102,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello there!" });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+
+connectDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}).catch((err) => {
+  console.log("MongoDB connection failed! ", err);
+})
+

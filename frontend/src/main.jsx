@@ -16,6 +16,7 @@ import Search from './pages/Search/Search.jsx';
 import PageLoading from './components/PageLoading.jsx';
 import DisplayPodcast from './pages/DisplayPodcast/DisplayPodcast.jsx';
 import PlayerWrapper from './components/videoplayer/PlayerWrapper.jsx';
+import Profile from './pages/Profile/Profile.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +25,8 @@ const router = createBrowserRouter(
       <Route path='/videoplay' element={<PlayerWrapper/>} />
       <Route path='/favorites' element={<Favorites />} />
       <Route path='/search' element={<Search />} />
-      <Route path='/displaypodcasts/:type' element={<DisplayPodcast/>}/>
+      <Route path='/displaypodcasts/:type' element={<DisplayPodcast />} />
+      <Route path='/profile' element={<Profile/>} />
       </Route>
   )
 );

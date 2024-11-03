@@ -1,12 +1,14 @@
 import React from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link } from 'react-router-dom';
+import { motion, AnimatePresence, px } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
 import ThemeController from "../ThemeController";
 import { useAuth0 } from "@auth0/auth0-react";
+import { MdAccountCircle } from "react-icons/md";
 
 function Navbar({ open, setOpen }) {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const { user, loginWithRedirect, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
   return (
     <motion.div
       className="sticky top-0 navbar bg-base justify-between"
@@ -34,22 +36,32 @@ function Navbar({ open, setOpen }) {
             }}
             className="flex-1"
           >
-            <Link to={"/"} className="btn btn-ghost text-xl text-primary">Stream Lounge</Link>
+            <Link to={"/"} className="btn btn-ghost text-xl text-primary">
+              Stream Lounge
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       <div className="flex-none mr-5">
-        <ThemeController/>
-        {!isAuthenticated && <motion.button
-          whileTap={{ scale: 0.75, rotate: "5deg" }}
-          className="btn btn-outline btn-primary ml-4"
-          onClick={() => loginWithRedirect()}
-        >
-          Login
-        </motion.button>}
+        <ThemeController />
+        {!isAuthenticated && (
+          <motion.button
+            whileTap={{ scale: 0.75, rotate: "5deg" }}
+            className="btn btn-outline btn-primary ml-4"
+            onClick={() => loginWithRedirect()}
+          >
+            Login
+          </motion.button>
+        )}
+        {isAuthenticated && (
+          <div className=" avatar ml-4 active:scale-75 transition-all" onClick={()=>{navigate("/profile")}}>
+            <div className="hover:ring-primary hover:ring-offset-base-100 w-9 rounded-full hover:ring hover:ring-offset-2 transition-all">
+            <MdAccountCircle size={"2.3em"} />
+            </div>
+          </div>
+        )}
       </div>
-      
     </motion.div>
   );
 }
