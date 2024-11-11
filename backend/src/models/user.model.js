@@ -11,6 +11,13 @@ const userShema = new Schema({
         required: true,
         unique: true,
     },
+    password: {
+        type: String,
+    },
+    googleId: {
+        type: String,
+        unique: true,
+    },
     profilepic: {
         type: String,
         default: "",
