@@ -5,8 +5,8 @@ import { buttons, elements } from "./elementsArray";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TbLogout2 } from "react-icons/tb";
-
-
+import { useSelector } from "react-redux";
+import useLogout from "../../hooks/useLogout";
 
 const bar = {
   visible: { opacity: 1, x: 0 },
@@ -14,7 +14,8 @@ const bar = {
 };
 
 function Sidebar({ open, setOpen }) {
-  const { logout,isAuthenticated } = useAuth0();
+  const isAuthenticated = useSelector((state) => state.auth.status);
+  const { logoutLoading, logout } = useLogout();
   return (
     <AnimatePresence mode="wait">
       {open && (
@@ -29,7 +30,6 @@ function Sidebar({ open, setOpen }) {
           }}
           className={`max-lg:z-10  max-lg:fixed z-0 left-0 flex flex-col h-full lg:min-w-60 max-w-250  bg-base-300 shadow-lg `}
         >
-          
           <div className="flex items-center ">
             <div className="flex items-center select-none">
               <img src="/play- for light.png" className=" h-10 m-2"></img>
@@ -68,18 +68,23 @@ function Sidebar({ open, setOpen }) {
                 </a>
               </li>
             ))}
-            {isAuthenticated && <li className="my-3"  onClick={()=> logout({ logoutParams: { returnTo: window.location.origin } })}>
-                <a>
-                <TbLogout2 className=" mx-2" size={"2em"}/>
-                  <h3 className="font-semibold text-md">Log Out</h3>
-                </a>
-              </li>}
+            {isAuthenticated && (
+              <li className="my-3" onClick={logout}>
+                {logoutLoading ? (
+                  <span className="loading loading-spinner loading-md"></span>
+                ) : (
+                  <a>
+                    <TbLogout2 className=" mx-2" size={"2em"} />
+                    <h3 className="font-semibold text-md">Log Out</h3>
+                  </a>
+                )}
+              </li>
+            )}
           </ul>
 
           {/* {elements.map((ele,ind) => (
                 <Element key={ind} icon={ele.icon} name={ele.name}/>
         ))} */}
-        
         </motion.div>
       )}
     </AnimatePresence>

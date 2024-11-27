@@ -16,6 +16,8 @@ import PageLoading from './components/PageLoading.jsx';
 import DisplayPodcast from './pages/DisplayPodcast/DisplayPodcast.jsx';
 import PlayerWrapper from './components/videoplayer/PlayerWrapper.jsx';
 import Profile from './pages/Profile/Profile.jsx';
+import { Provider } from "react-redux";
+import store from './store/store.js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,7 +50,11 @@ function AppWrapper() {
   </div>; // Show loading animation
   }
 
-  return <RouterProvider router={router} />; // Render the router after loading
+  return <>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      </Provider>
+  </>; // Render the router after loading
 }
 
 

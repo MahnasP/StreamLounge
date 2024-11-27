@@ -39,11 +39,11 @@ export default (passport) => {
                 if (existingUser) {
                     return done(null, existingUser);
                 }
-                const newUser = User.create({
+                const newUser = await User.create({
                     name: profile.displayName,
                     email: profile.emails[0].value,
                     googleId: profile.id,
-                    profilepic: profile.photos[0].value,
+                    profilepic: profile.photos ? profile.photos[0].value : null,
                     password: null,
                 });
                 const user = {
@@ -54,6 +54,7 @@ export default (passport) => {
                 };
                 done(null, user);
             } catch (error) {
+              console.log("passport google strategy error: ", error.message);
                 done(error);
             }
         })

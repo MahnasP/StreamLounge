@@ -19,6 +19,7 @@ const signup = async (req,res) => {
             email: email,
             profilepic: profilepic,
             password: hashedPass,
+            googleId: null,
         });
         const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET, { expiresIn: '4h' });
         const user={
@@ -27,7 +28,7 @@ const signup = async (req,res) => {
             email: createdUser.email,
             profilepic: createdUser.profilepic,
         }
-        res.status(201).json(token,user);
+        res.status(201).json({ token, user });
     } catch (error) {
         console.log("Signup error: ", error);
         res.status(500).json(err);

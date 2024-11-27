@@ -6,16 +6,19 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import { motion } from "framer-motion";
 import Upload from "./components/upload/Upload";
+import { Toaster } from 'react-hot-toast';
+import Login from "./components/Login/Login";
 
 function App() {
   const [sidebaropen, setSidebarOpen] = useState(true);
-
   return (
     <>
+      <Toaster toastOptions={{ style: { borderRadius: '50px',padding: '10px 20px', } }} />
       <div className="flex justify-center items-center h-screen w-full overflow-hidden">
         <Sidebar open={sidebaropen} setOpen={setSidebarOpen} />
         
-        <Upload/>
+        <Upload />
+        <Login/>
         <motion.div
           layout
           className="relative h-full w-full flex flex-col items-center"
