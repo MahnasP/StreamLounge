@@ -10,6 +10,7 @@ import { exec } from "child_process";
 import upload from "./src/middlewares/multer.middleware.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/user.routes.js";
+import podcastRoutes from "./src/routes/podcast.routes.js"
 import connectDB from "./src/db/index.js";
 
 dotenv.config({
@@ -43,24 +44,24 @@ app.use(
   })
 );
 
-// Error handling middleware
-// app.use((err, req, res, next) => {
-//   if (err instanceof multer.MulterError) {
-//     // Multer error occurred when uploading
-//     res.status(400).send(err.message);
-//   } else if (err) {
-//     // Unknown error occurred
-//     res.status(400).send(err.message);
-//   }
-// });
+// Global error handler
+app.use((err, req, res, next) => {
+  // If error has a status, use it, otherwise default to 500
+  const status = err.status || 500;
+  const message = err.message || 'Internal Server Error';
+  
+  res.status(status).json({ error: message });
+});
 
 app.use("/api/auth",authRoutes);
 app.use("/api/user",userRoutes);
 
 
+app.use("/api/podcast", podcastRoutes);
+
 
 app.post("/upload", upload.single("file"), (req, res) => {
-  console.log("file uploaded");
+  
   const episodeId = uuidv4();
   const videoPath = req.file.path;
   const outputPath = `./uploads/videos/${episodeId}`;

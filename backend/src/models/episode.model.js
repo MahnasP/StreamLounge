@@ -9,10 +9,10 @@ const episodeSchema = new Schema({
         type: String,
         required: true,
     },
-    thumbnail: {
-        type: String,
-        default: "",
-    },
+    // thumbnail: {
+    //     type: String,
+    //     default: "",
+    // },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

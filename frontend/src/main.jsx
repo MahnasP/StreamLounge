@@ -18,6 +18,7 @@ import PlayerWrapper from './components/videoplayer/PlayerWrapper.jsx';
 import Profile from './pages/Profile/Profile.jsx';
 import { Provider } from "react-redux";
 import store from './store/store.js';
+import { GoogleOAuthProvider } from '@react-oauth/google';  
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,9 +52,11 @@ function AppWrapper() {
   }
 
   return <>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <Provider store={store}>
       <RouterProvider router={router} />
       </Provider>
+      </GoogleOAuthProvider>
   </>; // Render the router after loading
 }
 

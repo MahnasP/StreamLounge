@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoCloseOutline } from "react-icons/io5";
 import { buttons, elements } from "./elementsArray";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TbLogout2 } from "react-icons/tb";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ const bar = {
 function Sidebar({ open, setOpen }) {
   const isAuthenticated = useSelector((state) => state.auth.status);
   const { logoutLoading, logout } = useLogout();
+  const navigate = useNavigate();
   return (
     <AnimatePresence mode="wait">
       {open && (
@@ -46,12 +47,10 @@ function Sidebar({ open, setOpen }) {
 
           <ul className="menu">
             {elements.map((ele, ind) => (
-              <li className="my-3" key={ind}>
+              <li className="my-3" key={ind} onClick={() => navigate(ele.link)}>
                 <a className="hover:shadow-lg hover:shadow-accent/20 active:scale-90">
-                  <Link className="flex items-center gap-2 " to={ele.link}>
-                    {ele.icon}
-                    <h3 className="font-semibold text-md">{ele.name}</h3>
-                  </Link>
+                  {ele.icon}
+                  <h3 className="font-semibold text-md">{ele.name}</h3>
                 </a>
               </li>
             ))}
