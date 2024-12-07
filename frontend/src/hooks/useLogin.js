@@ -35,7 +35,7 @@ function useLogin() {
             localStorage.setItem("userData", JSON.stringify(data.user));
                 localStorage.setItem("streamLoungeToken", JSON.stringify(data.token));
             }
-            console.log(data.user);
+            //console.log(data.user);
             document.getElementById("login_modal").close();
             navigate("/");
         } catch (error) {
