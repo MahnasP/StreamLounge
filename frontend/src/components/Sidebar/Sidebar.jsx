@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoCloseOutline } from "react-icons/io5";
-import { buttons, elements } from "./elementsArray";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { elements } from "./elementsArray";
+import { useNavigate } from "react-router-dom";
+
 import { TbLogout2 } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import useLogout from "../../hooks/useLogout";
+import toast from "react-hot-toast";
+import { SlCloudUpload } from "react-icons/sl";
 
 const bar = {
   visible: { opacity: 1, x: 0 },
@@ -59,14 +61,20 @@ function Sidebar({ open, setOpen }) {
           <div className="divider self-center w-5/6"></div>
 
           <ul className="menu">
-            {buttons.map((ele, ind) => (
-              <li className="my-3" key={ind} onClick={ele.fun}>
-                <a>
-                  {ele.icon}
-                  <h3 className="font-semibold text-md">{ele.name}</h3>
-                </a>
-              </li>
-            ))}
+            <li
+              className="my-3"
+              onClick={() => {
+                if (isAuthenticated)
+                  document.getElementById("podcastform_modal").showModal();
+                else toast.error("Login/Signup to Upload");
+              }}
+            >
+              <a>
+                <SlCloudUpload className=" mx-2" size={"2em"} />
+                <h3 className="font-semibold text-md">Upload</h3>
+              </a>
+            </li>
+
             {isAuthenticated && (
               <li className="my-3" onClick={logout}>
                 {logoutLoading ? (

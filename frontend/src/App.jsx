@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import Upload from "./components/upload/Upload";
 import { Toaster } from 'react-hot-toast';
 import Login from "./components/Login/Login";
+import PodcastForm from "./components/upload/PodcastForm";
 
 function App() {
   const [sidebaropen, setSidebarOpen] = useState(true);
@@ -17,7 +18,7 @@ function App() {
       <div className="flex justify-center items-center h-screen w-full overflow-hidden">
         <Sidebar open={sidebaropen} setOpen={setSidebarOpen} />
         
-        <Upload />
+        <PodcastForm/>
         <Login/>
         <motion.div
           layout

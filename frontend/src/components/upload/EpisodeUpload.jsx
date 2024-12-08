@@ -47,7 +47,7 @@ function EpisodeUpload({ onEpisodeUploaded }) {
 
   return (
     <dialog id="episodeupload_modal" className="modal">
-      <div className="modal-box">
+      <div className="modal-box w-full max-w-2xl">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -56,7 +56,7 @@ function EpisodeUpload({ onEpisodeUploaded }) {
         </form>
         <h3 className="font-bold text-2xl pl-3">Upload Episode</h3>
 
-        <div className="form-control">
+        <div className="form-control space-y-4 mt-6">
           <input
             type="text"
             name="name"
