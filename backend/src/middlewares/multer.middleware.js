@@ -13,7 +13,8 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + "-" + uuidv4() + path.extname(file.originalname));
     },
   });
-  const allowedVideoTypes = [".mp4", ".mkv", ".avi", ".mov", ".flv"];
+const allowedVideoTypes = [".mp4", ".mkv", ".avi", ".mov", ".flv"];
+const allowedImageTypes = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
   
   // File filter function
   const fileFilter = (req, file, cb) => {
@@ -21,10 +22,10 @@ const storage = multer.diskStorage({
     const ext = path.extname(file.originalname).toLowerCase();
   
     // Check if the file extension is in the list of allowed video formats
-    if (allowedVideoTypes.includes(ext)) {
+    if (allowedVideoTypes.includes(ext) || allowedImageTypes.includes(ext)) {
       cb(null, true); // Accept the file
     } else {
-      cb(new Error("Invalid file type. Only video files are allowed."), false); // Reject the file
+      cb(new Error("Invalid file type. Only video and image files are allowed."), false); // Reject the file
     }
   };
   

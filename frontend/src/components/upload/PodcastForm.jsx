@@ -107,7 +107,7 @@ function PodcastForm() {
               
                 <span className="label-text ml-3 mb-1">Pick a thumbnail</span>
               
-              <input type="file" className="file-input file-input-bordered mb-2" />
+              <input type="file" value={podcastData.thumbnail} onChange={handleThumbnailChange} className="file-input file-input-bordered mb-2" />
             </label>
 
             <select
@@ -147,12 +147,12 @@ function PodcastForm() {
                     className="btn btn-outline btn-primary mt-2"
                     onClick={() => document.getElementById("episodeupload_modal").showModal()}
                 >
-                    Add Episode
+                    {loading?<span className="loading loading-spinner loading-md"></span>:"Add Episode"}
                 </button>
             </div>
 
             <button onClick={()=>{}} className="btn btn-primary mt-4">
-                Create
+               {loading?<span className="loading loading-spinner loading-md"></span>:"Create"}
             </button>
 
           </div>

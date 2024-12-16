@@ -34,7 +34,34 @@ const uploadEpisode = async (req, res) => {
       fs.mkdirSync(Path, { recursive: true });
     }
 
-    ffmpeg(file.path)
+    const metadata = await promisify(ffmpeg.ffprobe)(file.path);
+    const { height } = metadata.streams[0];
+    const isHigherThan480p = height > 480;
+
+    const scaledFilePath = `${Path}/scaled_video.mp4`;
+
+    if (isHigherThan480p) {
+      console.log("Video is higher than 480p, resizing...");
+      await new Promise((resolve, reject) => {
+        ffmpeg(file.path)
+          .outputOptions([
+            "-vf scale=-2:480", // Maintain aspect ratio, scale height to 480
+            "-c:v libx264", // Use H.264 codec
+            "-preset fast", // Faster processing
+            "-crf 23", // Constant Rate Factor (quality)
+          ])
+          .output(scaledFilePath)
+          .on("end", resolve)
+          .on("error", reject)
+          .run();
+      });
+      console.log("Video resized to 480p.");
+    } else {
+      console.log("Video is 480p or lower, no resizing needed.");
+      fs.copyFileSync(file.path, scaledFilePath);
+    }
+
+    ffmpeg(scaledFilePath)
       .outputOptions([
         "-c:v libx264",
         "-c:a aac",
@@ -91,6 +118,21 @@ const uploadEpisode = async (req, res) => {
 
           // await Podcast.findByIdAndUpdate(podcastId, { $push: { episodes: episode._id } });
 
+          // Cleanup temporary files
+          try {
+            fs.unlinkSync(file.path); // Original uploaded file
+            if (fs.existsSync(scaledFilePath)) fs.unlinkSync(scaledFilePath); // Scaled video
+            segmentFiles.forEach((segment) => {
+              const segmentPath = `${outputDir}/${segment}`;
+              if (fs.existsSync(segmentPath)) fs.unlinkSync(segmentPath);
+            });
+            if (fs.existsSync(manifestPath)) fs.unlinkSync(manifestPath); // Manifest
+            if (fs.existsSync(outputDir)) fs.rmdirSync(outputDir); // Output directory
+            console.log("Temporary files cleaned up.");
+          } catch (cleanupError) {
+            console.error("Error during cleanup:", cleanupError);
+          }
+
           res.status(201).json(episode);
         } catch (error) {
           console.error("Error processing episode:", error);
@@ -108,4 +150,36 @@ const uploadEpisode = async (req, res) => {
   }
 };
 
-export { uploadEpisode };
+const createPodcast = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      const err = new Error("user not authenticated");
+      console.log("no userid in req");
+      return res.status(401).json(err.message);
+    }
+    const { name, desc, category } = req.body;
+    const thumbnail = req.thumbnail;
+    const episodes = JSON.parse(req.body.episodes);
+    const uploadres = await cloudinary.uploader.upload(thumbnail.path, { resource_type: "image" });
+    const thumbnail_url = uploadres.secure_url;
+
+    const podcast = await Podcast.create({
+      name,
+      desc,
+      thumbnail: thumbnail_url,
+      creator: user._id,
+      category,
+      episodes,
+    });
+
+    if (podcast) {
+      res.status(201).json(podcast.name);
+    }
+  } catch (error) {
+    console.log("Error in createPodcast: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+export { uploadEpisode, createPodcast };
