@@ -2,7 +2,6 @@ import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { Auth0Provider } from '@auth0/auth0-react';
 
 import {
   Route,
@@ -17,6 +16,9 @@ import PageLoading from './components/PageLoading.jsx';
 import DisplayPodcast from './pages/DisplayPodcast/DisplayPodcast.jsx';
 import PlayerWrapper from './components/videoplayer/PlayerWrapper.jsx';
 import Profile from './pages/Profile/Profile.jsx';
+import { Provider } from "react-redux";
+import store from './store/store.js';
+import { GoogleOAuthProvider } from '@react-oauth/google';  
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -49,21 +51,21 @@ function AppWrapper() {
   </div>; // Show loading animation
   }
 
-  return <RouterProvider router={router} />; // Render the router after loading
+  return <>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      </Provider>
+      </GoogleOAuthProvider>
+  </>; // Render the router after loading
 }
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Auth0Provider
-    domain={import.meta.env.VITE_AUTH0_DOMAIN}
-    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-    authorizationParams={{
-      redirect_uri: window.location.origin
-    }}
-  >
+    
       <AppWrapper />
-      </Auth0Provider>
+      
   </StrictMode>,
 )

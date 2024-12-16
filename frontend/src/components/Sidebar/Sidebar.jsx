@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoCloseOutline } from "react-icons/io5";
-import { buttons, elements } from "./elementsArray";
-import { Link } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { elements } from "./elementsArray";
+import { useNavigate } from "react-router-dom";
+
 import { TbLogout2 } from "react-icons/tb";
-
-
+import { useSelector } from "react-redux";
+import useLogout from "../../hooks/useLogout";
+import toast from "react-hot-toast";
+import { SlCloudUpload } from "react-icons/sl";
 
 const bar = {
   visible: { opacity: 1, x: 0 },
@@ -14,7 +16,9 @@ const bar = {
 };
 
 function Sidebar({ open, setOpen }) {
-  const { logout,isAuthenticated } = useAuth0();
+  const isAuthenticated = useSelector((state) => state.auth.status);
+  const { logoutLoading, logout } = useLogout();
+  const navigate = useNavigate();
   return (
     <AnimatePresence mode="wait">
       {open && (
@@ -29,7 +33,6 @@ function Sidebar({ open, setOpen }) {
           }}
           className={`max-lg:z-10  max-lg:fixed z-0 left-0 flex flex-col h-full lg:min-w-60 max-w-250  bg-base-300 shadow-lg `}
         >
-          
           <div className="flex items-center ">
             <div className="flex items-center select-none">
               <img src="/play- for light.png" className=" h-10 m-2"></img>
@@ -46,12 +49,10 @@ function Sidebar({ open, setOpen }) {
 
           <ul className="menu">
             {elements.map((ele, ind) => (
-              <li className="my-3" key={ind}>
+              <li className="my-3" key={ind} onClick={() => navigate(ele.link)}>
                 <a className="hover:shadow-lg hover:shadow-accent/20 active:scale-90">
-                  <Link className="flex items-center gap-2 " to={ele.link}>
-                    {ele.icon}
-                    <h3 className="font-semibold text-md">{ele.name}</h3>
-                  </Link>
+                  {ele.icon}
+                  <h3 className="font-semibold text-md">{ele.name}</h3>
                 </a>
               </li>
             ))}
@@ -60,26 +61,37 @@ function Sidebar({ open, setOpen }) {
           <div className="divider self-center w-5/6"></div>
 
           <ul className="menu">
-            {buttons.map((ele, ind) => (
-              <li className="my-3" key={ind} onClick={ele.fun}>
-                <a>
-                  {ele.icon}
-                  <h3 className="font-semibold text-md">{ele.name}</h3>
-                </a>
+            <li
+              className="my-3"
+              onClick={() => {
+                if (isAuthenticated)
+                  document.getElementById("podcastform_modal").showModal();
+                else toast.error("Login/Signup to Upload");
+              }}
+            >
+              <a>
+                <SlCloudUpload className=" mx-2" size={"2em"} />
+                <h3 className="font-semibold text-md">Upload</h3>
+              </a>
+            </li>
+
+            {isAuthenticated && (
+              <li className="my-3" onClick={logout}>
+                {logoutLoading ? (
+                  <span className="loading loading-spinner loading-md"></span>
+                ) : (
+                  <a>
+                    <TbLogout2 className=" mx-2" size={"2em"} />
+                    <h3 className="font-semibold text-md">Log Out</h3>
+                  </a>
+                )}
               </li>
-            ))}
-            {isAuthenticated && <li className="my-3"  onClick={()=> logout({ logoutParams: { returnTo: window.location.origin } })}>
-                <a>
-                <TbLogout2 className=" mx-2" size={"2em"}/>
-                  <h3 className="font-semibold text-md">Log Out</h3>
-                </a>
-              </li>}
+            )}
           </ul>
 
           {/* {elements.map((ele,ind) => (
                 <Element key={ind} icon={ele.icon} name={ele.name}/>
         ))} */}
-        
         </motion.div>
       )}
     </AnimatePresence>

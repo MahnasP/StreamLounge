@@ -18,10 +18,6 @@ const podcastSchema = new Schema({
         ref: "User",
         required: true,
     },
-    tags: {
-        type: [String],
-        default: []
-    },
     mediaType: {
         type: String,
         default: "video",

@@ -3,11 +3,11 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { motion, AnimatePresence, px } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import ThemeController from "../ThemeController";
-import { useAuth0 } from "@auth0/auth0-react";
 import { MdAccountCircle } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 function Navbar({ open, setOpen }) {
-  const { user, loginWithRedirect, isAuthenticated } = useAuth0();
+  const isAuthenticated = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
   return (
     <motion.div
@@ -49,7 +49,7 @@ function Navbar({ open, setOpen }) {
           <motion.button
             whileTap={{ scale: 0.75, rotate: "5deg" }}
             className="btn btn-outline btn-primary ml-4"
-            onClick={() => loginWithRedirect()}
+            onClick={()=>document.getElementById("login_modal").showModal()}
           >
             Login
           </motion.button>
