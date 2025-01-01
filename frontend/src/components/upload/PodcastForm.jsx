@@ -107,7 +107,7 @@ function PodcastForm() {
               
                 <span className="label-text ml-3 mb-1">Pick a thumbnail</span>
               
-              <input type="file" value={podcastData.thumbnail} onChange={handleThumbnailChange} className="file-input file-input-bordered mb-2" />
+              <input type="file" onChange={handleThumbnailChange} className="file-input file-input-bordered mb-2" />
             </label>
 
             <select
@@ -132,9 +132,9 @@ function PodcastForm() {
             <div className="border p-4 rounded-3xl">
                 <h3 className="font-bold mb-2">Uploaded Episodes:</h3>
                 {episodeObjects.length > 0 ? (
-                    <ul className="menu bg-base-200">
+                    <ul className="menu ">
                         {episodeObjects.map((episode, index) => (
-                            <li key={index}>
+                            <li key={index} className="bg-base-200 rounded-full">
                                 <span className="font-medium">{episode.name}</span>
                             </li>
                         ))}
@@ -145,13 +145,14 @@ function PodcastForm() {
                 {/* Add Episode Button */}
                 <button
                     className="btn btn-outline btn-primary mt-2"
-                    onClick={() => document.getElementById("episodeupload_modal").showModal()}
+                onClick={() => document.getElementById("episodeupload_modal").showModal()}
+                
                 >
                     {loading?<span className="loading loading-spinner loading-md"></span>:"Add Episode"}
                 </button>
             </div>
 
-            <button onClick={()=>{}} className="btn btn-primary mt-4">
+            <button onClick={()=>{handleSubmit}} className="btn btn-primary mt-4">
                {loading?<span className="loading loading-spinner loading-md"></span>:"Create"}
             </button>
 

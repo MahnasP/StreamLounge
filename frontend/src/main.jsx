@@ -19,6 +19,7 @@ import Profile from './pages/Profile/Profile.jsx';
 import { Provider } from "react-redux";
 import store from './store/store.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';  
+import PodcastDetails from './pages/PodcastDetails/PodcastDetails.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,7 +29,8 @@ const router = createBrowserRouter(
       <Route path='/favorites' element={<Favorites />} />
       <Route path='/search' element={<Search />} />
       <Route path='/displaypodcasts/:type' element={<DisplayPodcast />} />
-      <Route path='/profile' element={<Profile/>} />
+      <Route path='/profile' element={<Profile />} />
+      <Route path='/podcast/' element={<PodcastDetails/>} />
       </Route>
   )
 );

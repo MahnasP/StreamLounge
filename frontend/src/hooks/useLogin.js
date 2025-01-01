@@ -33,7 +33,7 @@ function useLogin() {
             {
                 dispatch(authLogin(data.user));
             localStorage.setItem("userData", JSON.stringify(data.user));
-                localStorage.setItem("streamLoungeToken", JSON.stringify(data.token));
+                localStorage.setItem("streamLoungeToken", data.token);
             }
             //console.log(data.user);
             document.getElementById("login_modal").close();

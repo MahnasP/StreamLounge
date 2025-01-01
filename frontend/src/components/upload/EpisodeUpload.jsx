@@ -27,19 +27,26 @@ function EpisodeUpload({ onEpisodeUploaded }) {
     formData.append("mediaType", episodeData.mediaType);
     formData.append("file", episodeData.file);
 
+    const token = localStorage.getItem("streamLoungeToken");
+    console.log(token);
+
     try {
       setLoading(true);
       const response = await axios.post(
-        "/api/podcast/episode/upload",
+        `${import.meta.env.VITE_API_URL}/api/podcast/episode/upload`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}`,
+          },
+        },
+        
       );
       const episode = response.data;
       if (episode) onEpisodeUploaded(episode);
     } catch (error) {
-      toast.error("error uploading episode ", error.message);
+      toast.error("error uploading episode: "+ error);
     } finally {
       setLoading(false);
     }
@@ -80,6 +87,7 @@ function EpisodeUpload({ onEpisodeUploaded }) {
             type="file"
             onChange={handleFileChange}
             className="file-input file-input-bordered"
+            accept="video/*"
           />
           <button
             className="btn btn-primary mt-4"

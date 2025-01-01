@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { v2 as cloudinary } from "cloudinary";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
+import { promisify } from "util";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -69,6 +70,7 @@ const uploadEpisode = async (req, res) => {
         "-hls_time 10",
         "-hls_list_size 0",
         `-hls_segment_filename ${outputDir}/segment_%03d.ts`,
+        "-threads 2",
       ])
       .output(manifestPath)
       .on("end", async () => {
