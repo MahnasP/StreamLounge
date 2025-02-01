@@ -20,6 +20,7 @@ import { Provider } from "react-redux";
 import store from './store/store.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';  
 import PodcastDetails from './pages/PodcastDetails/PodcastDetails.jsx';
+import useTheme from './hooks/useTheme.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,16 +39,29 @@ const router = createBrowserRouter(
 
 function AppWrapper() {
   const [loading, setLoading] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [theme, saveTheme] = useTheme();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+  // Check if it's the first time the app is loaded
+  const isFirstVisit = localStorage.getItem('firstLoad') === null;
 
-    return () => clearTimeout(timer);
+  if (isFirstVisit) {
+    localStorage.setItem('firstLoad', 'false'); // Mark as visited
+  }
+
+    setIsFirstLoad(isFirstVisit);
+    
+    saveTheme(theme);
+
+  // Simulate a delay to show loading animation
+  setTimeout(() => {
+    setLoading(false); // Hide loading screen after a certain time
+  }, 2000);
+    
   }, []); // This runs only once when AppWrapper is mounted
 
-  if (loading) {
+  if (loading ) {
     return <div className=" flex justify-center items-center h-screen w-full">
     <PageLoading />
   </div>; // Show loading animation

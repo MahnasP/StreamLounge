@@ -5,6 +5,7 @@ import { v2 as cloudinary } from "cloudinary";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import { promisify } from "util";
+import { User } from "../models/user.model.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -163,7 +164,9 @@ const createPodcast = async (req, res) => {
     const { name, desc, category } = req.body;
     const thumbnail = req.thumbnail;
     const episodes = JSON.parse(req.body.episodes);
-    const uploadres = await cloudinary.uploader.upload(thumbnail.path, { resource_type: "image" });
+    const uploadres = await cloudinary.uploader.upload(thumbnail.path, {
+      resource_type: "image",
+    });
     const thumbnail_url = uploadres.secure_url;
 
     const podcast = await Podcast.create({
@@ -184,4 +187,100 @@ const createPodcast = async (req, res) => {
   }
 };
 
-export { uploadEpisode, createPodcast };
+const getPodcasts = async (req, res) => {
+  try {
+    const podcasts = await Podcast.find()
+      .populate("creator", "name profilepic")
+      .populate("episodes");
+    if (podcasts) res.status(201).json(podcasts);
+  } catch (error) {
+    console.log("Error in getPodcasts: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+const getPodcastById = async (req, res) => {
+  try {
+    const podcast = await Podcast.findById(req.params.id)
+      .populate("creator", "name profilepic")
+      .populate("episodes");
+    if (podcast) res.status(201).json(podcast);
+  } catch (error) {
+    console.log("Error in getPodcastById: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+const addView = async (req, res) => {
+  try {
+    await Podcast.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } });
+    res.status(200).json({ message: "view added." });
+  } catch (error) {
+    console.log("Error in addView: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+const favoritePodcast = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const podcast = await Podcast.findById(req.body.id);
+    if (user._id === podcast.creator) {
+      return res.status(403).json("Cannot favorite your own podcast");
+    }
+
+    const isFavorited = user.favorites.includes(req.body.id);
+    const updateOperation = isFavorited
+      ? { $pull: { favorites: req.body.id } }
+      : { $push: { favorites: req.body.id } };
+
+    await User.findByIdAndUpdate(req.user.id, updateOperation, { new: true });
+
+    res.status(200).json({
+      message: isFavorited ? "removed from favorites" : "added to favorites",
+    });
+  } catch (error) {
+    console.log("Error in favoritePodcast: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+const getByCategory = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const podcasts = await Podcast.find({
+      category: { $regex: q, $options: "i" },
+    })
+      .populate("creator", "name profilepic")
+      .populate("episodes");
+
+    res.status(200).json(podcasts);
+  } catch (err) {
+    console.log("Error in getByCategory: ", err.message);
+    res.status(500).json(err);
+  }
+};
+
+const search = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const podcasts = Podcast.find({ name: { $regex: query, $options: "i" } })
+      .populate("creator", "name profilepic")
+      .limit(30);
+    res.status(201).json(podcasts);
+  } catch (error) {
+    console.log("Error in search: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+export {
+  uploadEpisode,
+  createPodcast,
+  getPodcasts,
+  getPodcastById,
+  addView,
+  favoritePodcast,
+  getByCategory,
+  search,
+};

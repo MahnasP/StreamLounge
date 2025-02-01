@@ -22,7 +22,7 @@ function Card() {
 
   return (
     
-      <div onClick={()=>navigate("/search")} className="relative group cursor-pointer card card-compact bg-base-100 w-80 shadow-md shadow-primary-content/20 transition-all hover:-translate-y-1">
+      <div onClick={()=>{}} className="relative group cursor-pointer card card-compact bg-base-100 w-80 max-md:w-60 shadow-md shadow-primary-content/20 transition-all hover:-translate-y-1">
         
           <figure>
           <img

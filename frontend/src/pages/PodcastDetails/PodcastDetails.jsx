@@ -1,4 +1,5 @@
 import React from "react";
+import EpisodeCard from "./EpisodeCard";
 
 function PodcastDetails() {
   return (
@@ -34,7 +35,8 @@ function PodcastDetails() {
         </div>
       </div>
       <div className=" m-7 py-3 rounded-xl">
-      <h1 className="text-2xl lg:text-3xl font-bold">Episodes</h1>
+        <h1 className="text-2xl lg:text-3xl font-bold mb-3">Episodes</h1>
+        <EpisodeCard/>
       </div>
     </div>
   );
