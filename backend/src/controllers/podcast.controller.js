@@ -162,8 +162,9 @@ const createPodcast = async (req, res) => {
       return res.status(401).json(err.message);
     }
     const { name, desc, category } = req.body;
-    const thumbnail = req.thumbnail;
+    const thumbnail = req.file;
     const episodes = JSON.parse(req.body.episodes);
+    //console.log(thumbnail)
     const uploadres = await cloudinary.uploader.upload(thumbnail.path, {
       resource_type: "image",
     });

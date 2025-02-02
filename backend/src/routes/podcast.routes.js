@@ -9,6 +9,7 @@ import {
   getByCategory,
   getPodcastById,
   getPodcasts,
+  search,
   uploadEpisode,
 } from "../controllers/podcast.controller.js";
 
@@ -33,6 +34,7 @@ router.post(
 router.get("/all", getPodcasts);
 router.get("/get/:id", getPodcastById);
 router.get("/category", getByCategory);
+router.get("/search", search);
 
 router.post("/addview/:id", addView);
 router.post(

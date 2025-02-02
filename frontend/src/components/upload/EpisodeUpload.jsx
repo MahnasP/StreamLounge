@@ -11,6 +11,21 @@ function EpisodeUpload({ onEpisodeUploaded }) {
   });
   const [loading, setLoading] = useState(false);
 
+  const resetEpisodeData = () => {
+    setEpisodeData({
+      name: "",
+      desc: "",
+      mediaType: "video",
+      file: null,
+    });
+  }
+
+  const validateData = () => {
+    if (!episodeData.file || !episodeData.name || !episodeData.desc)
+      return false;
+    return true;
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEpisodeData((prev) => ({ ...prev, [name]: value }));
@@ -21,6 +36,10 @@ function EpisodeUpload({ onEpisodeUploaded }) {
   };
 
   const handleUploadEpisode = async () => {
+    if (!validateData())
+    {
+      return toast.error("Fill all fields to proceed.");
+    }
     const formData = new FormData();
     formData.append("name", episodeData.name);
     formData.append("desc", episodeData.desc);
@@ -49,6 +68,7 @@ function EpisodeUpload({ onEpisodeUploaded }) {
       toast.error("error uploading episode: "+ error);
     } finally {
       setLoading(false);
+      resetEpisodeData();
     }
   };
 

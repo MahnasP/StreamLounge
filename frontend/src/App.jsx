@@ -14,7 +14,7 @@ function App() {
   const [sidebaropen, setSidebarOpen] = useState(true);
   return (
     <>
-      <Toaster toastOptions={{ style: { borderRadius: '50px',padding: '10px 20px', } }} />
+      <Toaster position="bottom-left" toastOptions={{ style: { borderRadius: '50px',padding: '10px 20px',zIndex: 9999, } }} />
       <div className="flex justify-center items-center h-screen w-full overflow-hidden">
         <Sidebar open={sidebaropen} setOpen={setSidebarOpen} />
         
