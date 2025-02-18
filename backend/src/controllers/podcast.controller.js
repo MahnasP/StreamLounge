@@ -200,6 +200,21 @@ const getPodcasts = async (req, res) => {
   }
 };
 
+//get podcast decending order of views
+const getMostPopular = async (req, res) => {
+  try {
+    const podcasts = await Podcast.find()
+      .sort({ views: -1 })
+      .populate("creator", "name profilepic")
+      .populate("episodes");
+    if (podcasts) res.status(201).json(podcasts);
+  } catch (error) {
+    console.log("Error in getMostPopular: ", error.message);
+    res.status(500).json(error);
+  }
+};
+
+
 const getPodcastById = async (req, res) => {
   try {
     const podcast = await Podcast.findById(req.params.id)
@@ -284,4 +299,5 @@ export {
   favoritePodcast,
   getByCategory,
   search,
+  getMostPopular,
 };
