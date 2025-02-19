@@ -31,7 +31,7 @@ const router = createBrowserRouter(
       <Route path='/search' element={<Search />} />
       <Route path='/displaypodcasts/:type' element={<DisplayPodcast />} />
       <Route path='/profile' element={<Profile />} />
-      <Route path='/podcast/' element={<PodcastDetails/>} />
+      <Route path='/podcast/:id' element={<PodcastDetails/>} />
       </Route>
   )
 );

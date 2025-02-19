@@ -17,11 +17,11 @@ export const elements = [
     icon: <MdSearch className=" mx-2" size={"2em"} />,
     name: "Search",
   },
-  {
-    link: "/favorites",
-    icon: <GrFavorite className=" mx-2" size={"2em"} />,
-    name: "Favorites",
-  },
+  // {
+  //   link: "/favorites",
+  //   icon: <GrFavorite className=" mx-2" size={"2em"} />,
+  //   name: "Favorites",
+  // },
 ];
 
 

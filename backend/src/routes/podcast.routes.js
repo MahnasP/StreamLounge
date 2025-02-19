@@ -7,6 +7,7 @@ import {
   createPodcast,
   favoritePodcast,
   getByCategory,
+  getMostPopular,
   getPodcastById,
   getPodcasts,
   search,
@@ -32,6 +33,7 @@ router.post(
 );
 
 router.get("/all", getPodcasts);
+router.get("/mostpopular", getMostPopular);
 router.get("/get/:id", getPodcastById);
 router.get("/category", getByCategory);
 router.get("/search", search);

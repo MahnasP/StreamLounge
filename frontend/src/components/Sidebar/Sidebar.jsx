@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import useLogout from "../../hooks/useLogout";
 import toast from "react-hot-toast";
 import { SlCloudUpload } from "react-icons/sl";
+import { GrFavorite } from "react-icons/gr";
 
 const bar = {
   visible: { opacity: 1, x: 0 },
@@ -56,6 +57,16 @@ function Sidebar({ open, setOpen }) {
                 </a>
               </li>
             ))}
+            <li className="my-3"  onClick={() => {
+                if (isAuthenticated)
+                  navigate("/favorites");
+                else toast.error("Login/Signup to view favorites");
+            }}>
+                <a className="hover:shadow-lg hover:shadow-accent/20 active:scale-90">
+                  <GrFavorite className=" mx-2" size={"2em"} />
+                  <h3 className="font-semibold text-md">Favorites</h3>
+                </a>
+              </li>
           </ul>
 
           <div className="divider self-center w-5/6"></div>
