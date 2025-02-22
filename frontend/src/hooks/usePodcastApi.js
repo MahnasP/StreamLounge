@@ -73,7 +73,8 @@ function usePodcastApi() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      toast.success(response.data);
+      toast.success(response.data.message);
+      return response;
     } catch (error) {
       console.error(error);
       toast.error("Error in adding podcast to favorites");

@@ -168,7 +168,7 @@ function PodcastForm() {
               onChange={handleInputChange}
               className="select select-bordered sm:overflow-y-auto"
             >
-              <option selected>Select Category</option>
+              <option value="">Select Category</option>
               {categories.map((cat, index) => (
                 <option key={index} value={cat}>
                   {cat}

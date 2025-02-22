@@ -1,31 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoHeadset } from "react-icons/io5";
 import { BsFillPlayFill } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { GrFavorite } from "react-icons/gr";
+import { MdFavorite } from "react-icons/md";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import usePodcastApi from "../hooks/usePodcastApi";
 
-function Card({ podcast }) {
+function Card({ podcast, user }) {
   const type = podcast?.mediaType || "video";
   const navigate = useNavigate();
+  const { favoritePodcast } = usePodcastApi();
+  const isAuthenticated = useSelector((state) => state.auth.status);
+  const [isFav, setIsFav] = useState(false);
 
-  //TODO: Add functionality to play the podcast
+  useEffect(() => {
+    if (user?.favorites?.some((fav) => fav._id === podcast._id)) {
+      setIsFav(true);
+    }
+  }, [podcast._id, user]);
+
+  async function handleFavClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isAuthenticated) {
+      try {
+        const res = await favoritePodcast(podcast._id);
+        if (res) {
+          setIsFav(!isFav);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error in favoriting podcast");
+      }
+    } else {
+      toast.error("Please login to favorite a podcast");
+    }
+  }
+
   function handleButtonClick(event) {
     event.preventDefault();
     event.stopPropagation();
     console.log("play from podcast card clicked!");
   }
 
-  //TODO: Add functionality to favorite the podcast
-  function handleFavClick(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log("Favorite from podcast card clicked!");
-  }
-
   return (
     <div
-      onClick={() => {navigate(`/podcast/${podcast._id}`)}}
+      onClick={() => {
+        navigate(`/podcast/${podcast._id}`);
+      }}
       className="relative group cursor-pointer card card-compact bg-base-100 w-80 max-md:w-60 shadow-md shadow-primary-content/20 transition-all hover:-translate-y-1"
     >
       <figure>
@@ -39,7 +65,7 @@ function Card({ podcast }) {
         onClick={handleFavClick}
         className="absolute top-2 right-2 btn btn-ghost"
       >
-        <GrFavorite size={"1.5em"} />
+        {isFav ? <MdFavorite size={"1.5em"} /> : <GrFavorite size={"1.5em"} />}
       </button>
       <button
         onClick={handleButtonClick}
@@ -54,8 +80,8 @@ function Card({ podcast }) {
       <div className="card-body">
         <h2 className="card-title truncate">{podcast.name}</h2>
         <p className=" truncate">{podcast.desc}</p>
-        <div className=" flex flex-row justify-between mt-4">
-          <div className="avatar flex items-center">
+        <div className=" flex flex-row max-md:flex-wrap justify-between mt-4">
+          <div className="avatar flex  items-center">
             <div className="w-10 rounded-full">
               <img
                 src={
@@ -64,9 +90,11 @@ function Card({ podcast }) {
                 }
               />
             </div>
-            <h3 className="ml-2 font-semibold text-ellipsis">{podcast.creator?.name}</h3>
+            <h3 className="ml-2 font-semibold text-ellipsis">
+              {podcast.creator?.name}
+            </h3>
           </div>
-          <div className="flex items-center text-ellipsis">
+          <div className="flex max-md:mt-2 items-center text-ellipsis">
             <p> {podcast.views} views</p>
           </div>
         </div>
