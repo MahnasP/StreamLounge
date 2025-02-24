@@ -280,9 +280,9 @@ const getByCategory = async (req, res) => {
 const search = async (req, res) => {
   try {
     const query = req.query.q;
-    const podcasts = Podcast.find({ name: { $regex: query, $options: "i" } })
+    const podcasts = await Podcast.find({ name: { $regex: query, $options: "i" } })
       .populate("creator", "name profilepic")
-      .limit(30);
+      .limit(10);
     res.status(201).json(podcasts);
   } catch (error) {
     console.log("Error in search: ", error.message);
