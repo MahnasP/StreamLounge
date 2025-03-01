@@ -3,6 +3,7 @@ import EpisodeUpload from "./EpisodeUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const categories = [
   "Culture",
@@ -114,6 +115,8 @@ function PodcastForm() {
       closePodcastFormModal();
     }
   };
+
+  const isAuthenticated = useSelector((state) => state.auth.status);
 
   return (
     <>

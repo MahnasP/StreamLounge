@@ -74,6 +74,8 @@ function Dashboard() {
       >
         {loading ? (
           <CardSkeleton />
+        ) : mostPopular.length === 0 ? (
+          <p>No series/podcasts in this category</p>
         ) : (
           mostPopular
             .slice(0, 7)
@@ -85,6 +87,8 @@ function Dashboard() {
       <CategoryContainer title={"Comedy"} to={"/displaypodcasts/Comedy"}>
         {loading ? (
           <CardSkeleton />
+        ) : comedy.length === 0 ? (
+          <p>No series/podcasts in this category</p>
         ) : (
           comedy
             .slice(0, 7)
@@ -96,6 +100,8 @@ function Dashboard() {
       <CategoryContainer title={"Education"} to={"/displaypodcasts/Education"}>
         {loading ? (
           <CardSkeleton />
+        ) : education.length === 0 ? (
+          <p>No series/podcasts in this category</p>
         ) : (
           education
             .slice(0, 7)

@@ -1,9 +1,20 @@
 import React from "react";
 import { FaPlay } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { openPlayerModal } from "../../store/modalSlice";
 
 //TODO: Add functionality to play the episode
 
-function EpisodeCard({ episode, thumbnail, num }) {
+function EpisodeCard({ episode, thumbnail, num,setSelectedEpisode }) {
+
+  const dispatch = useDispatch();
+  const playhandler = () => {
+    setSelectedEpisode(episode);
+    dispatch(openPlayerModal());
+    document.getElementById("video_player_modal").showModal();
+    
+  }
+
   return (
     <div className=" w-full max-md:min-h-24 min-h-28 p-4 rounded-lg bg-base-100 shadow-md flex">
       <div className="relative max-md:w-16 max-md:h-16 w-20 h-20 hover:scale-110">
@@ -14,7 +25,9 @@ function EpisodeCard({ episode, thumbnail, num }) {
             "https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
           }
         />
-        <button className="btn btn-circle btn-ghost absolute max-md:top-3 top-4 max-md:left-3 left-4 opacity-75 hover:scale-110">
+        <button
+        onClick={playhandler}
+         className="btn btn-circle btn-ghost absolute max-md:top-3 top-4 max-md:left-3 left-4 opacity-75 hover:scale-110">
           <FaPlay size={33} />
         </button>
       </div>

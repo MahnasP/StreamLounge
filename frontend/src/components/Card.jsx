@@ -44,7 +44,7 @@ function Card({ podcast, user }) {
   function handleButtonClick(event) {
     event.preventDefault();
     event.stopPropagation();
-    console.log("play from podcast card clicked!");
+    navigate(`/podcast/${podcast._id}`);
   }
 
   return (

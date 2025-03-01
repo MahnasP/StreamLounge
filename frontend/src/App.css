@@ -1,0 +1,29 @@
+.video-js {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    overflow:hidden;
+  }
+
+  .vjs-custom-skin .vjs-control-bar {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for controls */
+    border-radius: 5px; /* Rounded corners for the control bar */
+  }
+
+  .vjs-custom-skin .vjs-play-control {
+    color: #59cbc3; /* Tomato color */
+    
+    padding: 10px;
+  }
+
+  .vjs-custom-skin .vjs-play-control:hover {
+    background-color: #59cbc3; /* Darker shade on hover */
+  }
+  
+  .vjs-custom-skin .vjs-progress-control {
+    color: #59cbc3;
+  }
+  
+  .vjs-custom-skin .vjs-play-progress {
+    background-color: #59cbc3; /* Tomato color for the progress bar */
+  }

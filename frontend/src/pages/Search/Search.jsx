@@ -43,7 +43,7 @@ function Search() {
             </h1>
             <div className="mt-8 flex flex-wrap gap-6 max-lg:justify-center">
               {Category.map((cat, ind) => (
-                <Link key={ind} to={"/"}>
+                <Link key={ind} to={`/displaypodcasts/${cat.name}`}>
                   <CategoryCard category={cat} />
                 </Link>
               ))}

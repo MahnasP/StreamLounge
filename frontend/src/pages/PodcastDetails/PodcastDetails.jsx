@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { MdFavorite } from "react-icons/md";
 import { use } from "react";
+import PlayerDialog from "../../components/videoplayer/PlayerDialog";
 
 function PodcastDetails() {
   const { id } = useParams();
@@ -20,6 +21,7 @@ function PodcastDetails() {
   const [user, setUser] = useState({});
   const isAuthenticated = useSelector((state) => state.auth.status);
   const [isfav, setIsFav] = useState(false);
+  const [selectedEpisode, setSelectedEpisode] = useState(null);
 
   const getPodcast = async () => {
     setLoading(true);
@@ -112,72 +114,80 @@ function PodcastDetails() {
   }, [user]);
 
   return (
-    <div className="bg-base-200 w-full h-full flex flex-col overflow-y-scroll">
-      <div className=" p-3 relative">
-        <button
-          onClick={handleFavClick}
-          className="absolute top-4 right-4 md:right-10 btn btn-ghost"
-        >
-          {isfav ? (
-            <MdFavorite size={"1.5em"} />
-          ) : (
-            <GrFavorite size={"1.5em"} />
-          )}
-        </button>
-        {loading ? (
-          <PodcastDetailsSkeleton />
-        ) : (
-          <div className="hero-content flex-col md:flex-row md:justify-start">
-            <img
-              src={podcast.thumbnail}
-              alt="thumbnail"
-              className="max-w-sm rounded-lg shadow-2xl"
-            />
-            <div>
-              <h1 className="text-3xl md:text-5xl font-bold">{podcast.name}</h1>
-              <p className="py-6">{podcast.desc}</p>
-
-              <div className="avatar flex items-center ">
-                <div className="w-7 lg:w-8 rounded-full">
-                  <img
-                    src={
-                      podcast.creator?.profilepic ||
-                      "https://avatar.iran.liara.run/public"
-                    }
-                  />
-                </div>
-                <h3 className="ml-2 font-semibold">{podcast.creator?.name}</h3>
-              </div>
-              <ul className="flex items-center flex-row space-x-3 mt-4">
-                <li className=" list-item min-w-10">
-                  • {podcast.views} {" Views"}
-                </li>
-                <li className=" list-item">
-                  • {calculateMonthsAgo(podcast.createdAt)} {" months ago"}
-                </li>
-              </ul>
-            </div>
-          </div>
-        )}
-      </div>
-      <div className=" m-7 py-3 rounded-xl">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-3">Episodes</h1>
-        <div className="flex flex-col gap-2">
+    <>
+      <PlayerDialog episode={selectedEpisode} />
+      <div className="bg-base-200 w-full h-full flex flex-col overflow-y-scroll">
+        <div className=" p-3 relative">
+          <button
+            onClick={handleFavClick}
+            className="absolute top-4 right-3 md:right-10 btn btn-ghost"
+          >
+            {isfav ? (
+              <MdFavorite size={"1.5em"} />
+            ) : (
+              <GrFavorite size={"1.5em"} />
+            )}
+          </button>
           {loading ? (
-            <EpisodeCardSkeleton />
+            <PodcastDetailsSkeleton />
           ) : (
-            podcast.episodes?.map((episode, index) => (
-              <EpisodeCard
-                key={episode._id}
-                episode={episode}
-                thumbnail={podcast.thumbnail}
-                num={index}
+            <div className="hero-content flex-col md:flex-row md:justify-start">
+              <img
+                src={podcast.thumbnail}
+                alt="thumbnail"
+                className="max-w-sm rounded-lg shadow-2xl"
               />
-            ))
+              <div>
+                <h1 className="text-3xl md:text-5xl font-bold">
+                  {podcast.name}
+                </h1>
+                <p className="py-6">{podcast.desc}</p>
+
+                <div className="avatar flex items-center ">
+                  <div className="w-7 lg:w-8 rounded-full">
+                    <img
+                      src={
+                        podcast.creator?.profilepic ||
+                        "https://avatar.iran.liara.run/public"
+                      }
+                    />
+                  </div>
+                  <h3 className="ml-2 font-semibold">
+                    {podcast.creator?.name}
+                  </h3>
+                </div>
+                <ul className="flex items-center flex-row space-x-3 mt-4">
+                  <li className=" list-item min-w-10">
+                    • {podcast.views} {" Views"}
+                  </li>
+                  <li className=" list-item">
+                    • {calculateMonthsAgo(podcast.createdAt)} {" months ago"}
+                  </li>
+                </ul>
+              </div>
+            </div>
           )}
         </div>
+        <div className=" m-7 py-3 rounded-xl">
+          <h1 className="text-2xl lg:text-3xl font-bold mb-3">Episodes</h1>
+          <div className="flex flex-col gap-2">
+            {loading ? (
+              <EpisodeCardSkeleton />
+            ) : (
+              podcast.episodes?.map((episode, index) => (
+                <EpisodeCard
+                  key={episode._id}
+                  episode={episode}
+                  thumbnail={podcast.thumbnail}
+                  num={index}
+                  setSelectedEpisode={setSelectedEpisode}
+                />
+              ))
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
