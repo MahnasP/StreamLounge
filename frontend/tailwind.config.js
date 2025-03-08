@@ -16,7 +16,7 @@ export default {
           primary: "#66FCF1",
           accent: "#45A29E",
           neutral: "#66FCF1",
-          "base-100": "#0f1010",
+          "base-100": "#1a1d1d",
           "base-200": "#080909",
           "--btn-focus-scale": "0.85",
         },

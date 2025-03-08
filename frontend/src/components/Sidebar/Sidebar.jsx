@@ -34,9 +34,9 @@ function Sidebar({ open, setOpen }) {
           }}
           className={`max-lg:z-10  max-lg:fixed z-0 left-0 flex flex-col h-full lg:min-w-60 max-w-250  bg-base-300 shadow-lg `}
         >
-          <div className="flex items-center ">
+          <div className="flex items-center mt-4 ml-2">
             <div className="flex items-center select-none">
-              <img src="/play- for light.png" className=" h-10 m-2"></img>
+              <img src="/play- for light.png" className=" h-8 m-2"></img>
               <h1 className="font-medium text-primary text-xl  mr-7 ">
                 Stream Lounge
               </h1>
@@ -50,23 +50,32 @@ function Sidebar({ open, setOpen }) {
 
           <ul className="menu">
             {elements.map((ele, ind) => (
-              <li className="my-3" key={ind} onClick={() => navigate(ele.link)}>
+              <li
+                className="my-3"
+                key={ind}
+                onClick={() => {
+                  navigate(ele.link);
+                    if (window.innerWidth <= 1024) setOpen(false);
+                }}
+              >
                 <a className="hover:shadow-lg hover:shadow-accent/20 active:scale-90">
                   {ele.icon}
                   <h3 className="font-semibold text-md">{ele.name}</h3>
                 </a>
               </li>
             ))}
-            <li className="my-3"  onClick={() => {
-                if (isAuthenticated)
-                  navigate("/favorites");
+            <li
+              className="my-3"
+              onClick={() => {
+                if (isAuthenticated) navigate("/favorites");
                 else toast.error("Login/Signup to view favorites");
-            }}>
-                <a className="hover:shadow-lg hover:shadow-accent/20 active:scale-90">
-                  <GrFavorite className=" mx-2" size={"2em"} />
-                  <h3 className="font-semibold text-md">Favorites</h3>
-                </a>
-              </li>
+              }}
+            >
+              <a className="hover:shadow-lg hover:shadow-accent/20 active:scale-90">
+                <GrFavorite className=" mx-2" size={"2em"} />
+                <h3 className="font-semibold text-md">Favorites</h3>
+              </a>
+            </li>
           </ul>
 
           <div className="divider self-center w-5/6"></div>
