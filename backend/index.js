@@ -12,6 +12,7 @@ import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/user.routes.js";
 import podcastRoutes from "./src/routes/podcast.routes.js"
 import connectDB from "./src/db/index.js";
+import ffmpeg from "fluent-ffmpeg";
 
 dotenv.config({
   path: "./.env",
@@ -40,7 +41,7 @@ app.use(
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: ["http://localhost:3000", "http://localhost:5173", process.env.FRONTEND_URL],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
@@ -60,50 +61,19 @@ app.use("/api/user",userRoutes);
 
 app.use("/api/podcast", podcastRoutes);
 
+//check if ffmpeg is working
+app.get('/api/ffmpeg', (req, res) => {
+  ffmpeg.getAvailableCodecs(function(err, codecs) {
+    if(err){
+      return res.status(500).json({error: "ffmpeg not working", details:err.message});
+    }
 
-// app.post("/upload", upload.single("file"), (req, res) => {
-  
-//   const episodeId = uuidv4();
-//   const videoPath = req.file.path;
-//   const outputPath = `./uploads/videos/${episodeId}`;
-//   const hlspath = `${outputPath}/index.m3u8`;
-//   console.log("video path: ", videoPath);
-//   console.log(hlspath);
+    res.json({ message: 'FFmpeg is working', formats: Object.keys(formats) });
+  });
+});
 
-//   if (!fs.existsSync(outputPath)) {
-//     fs.mkdirSync(outputPath, { recursive: true });
-//   }
-
-//   const ffmpegCommand = `ffmpeg -i ${videoPath} -codec:v libx264 -codec:a aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${outputPath}/segment%03d.ts" -start_number 0 ${hlspath}`;
-
-//   exec(ffmpegCommand, (error, stdout, stderr) => {
-//     if (error) {
-//       console.log("exac error: ", error);
-//       return;
-//     }
-//     console.log("stdout: ", stdout);
-//     console.log("stderr: ", stderr);
-
-//     // Delete the original video file after processing
-//     // fs.unlink(videoPath, (err) => {
-//     //     if (err) {
-//     //         console.error("Error deleting file: ", err);
-//     //         return res.status(500).json({ message: "Error deleting original video file" });
-//     //     }
-//     //     console.log("Original video file deleted");
-//     // });
-
-//     const videoUrl = `http://localhost:3000/uploads/videos/${episodeId}/index.m3u8`;
-//     res.json({
-//       message: "Video converted to HLS",
-//       videoUrl: videoUrl,
-//       episodeId: episodeId,
-//     });
-//   });
-// });
-
-app.get("/", (req, res) => {
-  res.json({ message: "Hello there!" });
+app.get('/health', (req, res) => {
+  res.status(200).send('Server is running');
 });
 
 
