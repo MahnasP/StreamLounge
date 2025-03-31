@@ -179,6 +179,10 @@ const createPodcast = async (req, res) => {
       episodes,
     });
 
+    await User.findByIdAndUpdate(user._id, {
+      $push: { podcasts: podcast._id },
+    });
+
     if (podcast) {
       res.status(201).json(podcast.name);
     }

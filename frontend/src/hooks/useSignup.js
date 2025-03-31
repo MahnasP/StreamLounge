@@ -44,13 +44,15 @@ function useSignup() {
       const data = response.data;
       if (data.error) throw new Error(response.data.error);
       if (data) {
+        toast.success("Signup successful!");
         localStorage.setItem("userData", JSON.stringify(data.user));
-        localStorage.setItem("streamLoungeToken", JSON.stringify(data.token));
+        localStorage.setItem("streamLoungeToken", data.token);
         dispatch(authLogin(data.user));
       }
       document.getElementById("login_modal").close();
       navigate("/");
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     } finally {
       setsignupLoading(false);

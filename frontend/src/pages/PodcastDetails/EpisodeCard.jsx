@@ -5,11 +5,12 @@ import { openPlayerModal } from "../../store/modalSlice";
 
 //TODO: Add functionality to play the episode
 
-function EpisodeCard({ episode, thumbnail, num,setSelectedEpisode }) {
+function EpisodeCard({ episode, thumbnail, num,setSelectedEpisode, addViewHandler }) {
 
   const dispatch = useDispatch();
-  const playhandler = () => {
+  const playhandler = async () => {
     setSelectedEpisode(episode);
+    await addViewHandler();
     dispatch(openPlayerModal());
     document.getElementById("video_player_modal").showModal();
     

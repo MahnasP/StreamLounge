@@ -9,7 +9,7 @@ const signup = async (req,res) => {
         if (!req.body.username) return res.status(400).json({ error: "empty req body" });
         
         const existingUser = await User.findOne({ email: email });
-        if (existingUser) return res.status(400).json({ error: "user with this email already exists" });
+        if (existingUser) return res.json({ error: "User with this email already exists." }).status(400);
 
         const salt = bcrypt.genSaltSync(10);
         const hashedPass = await bcrypt.hash(password, salt);
@@ -20,7 +20,6 @@ const signup = async (req,res) => {
             email: email,
             profilepic: profilepic,
             password: hashedPass,
-            googleId: null,
         });
         const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET, { expiresIn: '4h' });
         const user={
@@ -32,7 +31,7 @@ const signup = async (req,res) => {
         res.status(201).json({ token, user });
     } catch (error) {
         console.log("Signup error: ", error);
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 }
 
@@ -40,10 +39,10 @@ const signin = async (req, res) => {
     try {
         const { email, password } = req.body;
         const existingUser = await User.findOne({ email: email });
-        if (!existingUser) return res.status(401).json({ message: 'Incorrect username or password' });
+        if (!existingUser) return res.json({ error: 'Incorrect username or password' }).status(400);
         
         const isMatch = await bcrypt.compare(password, existingUser.password);
-        if (!isMatch) return res.status(401).json({ message: 'Incorrect username or password' });
+        if (!isMatch) return res.json({ error: 'Incorrect username or password' }).status(400);
 
         const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, { expiresIn: "4h" });
         const user={

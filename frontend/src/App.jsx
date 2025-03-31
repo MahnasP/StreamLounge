@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Toaster
-        position="bottom-left"
+        position="top-center"
         toastOptions={{
           style: { borderRadius: "50px", padding: "10px 20px", zIndex: 9999 },
         }}

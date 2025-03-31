@@ -17,7 +17,7 @@ function PodcastDetails() {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [podcast, setPodcast] = useState({});
-  const { getPodcastById, favoritePodcast } = usePodcastApi();
+  const { getPodcastById, favoritePodcast, addView } = usePodcastApi();
   const [user, setUser] = useState({});
   const isAuthenticated = useSelector((state) => state.auth.status);
   const [isfav, setIsFav] = useState(false);
@@ -81,6 +81,11 @@ function PodcastDetails() {
       toast.error("Please login to favorite a podcast");
     }
   }
+
+  //add view functionality
+  const addViewHandler = async () => {
+    await addView(id);
+  };
 
   function calculateMonthsAgo(createdAt) {
     const createdDate = new Date(createdAt); // convert createdAt string to Date object
@@ -181,6 +186,7 @@ function PodcastDetails() {
                   thumbnail={podcast.thumbnail}
                   num={index}
                   setSelectedEpisode={setSelectedEpisode}
+                  addViewHandler={addViewHandler}
                 />
               ))
             )}
