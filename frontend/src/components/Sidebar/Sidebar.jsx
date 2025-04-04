@@ -32,7 +32,7 @@ function Sidebar({ open, setOpen }) {
             ease: "easeInOut",
             duration: 0.4,
           }}
-          className={`max-lg:z-10  max-lg:fixed z-0 left-0 flex flex-col h-full lg:min-w-60 max-w-250  bg-base-300 shadow-lg overflow-hidden `}
+          className={`max-lg:z-10  max-lg:fixed z-0 left-0 top-0 flex flex-col min-h-screen lg:min-w-60 max-w-250  bg-base-300 shadow-lg overflow-hidden `}
         >
           <div className="flex items-center mt-4 ml-2">
             <div className="flex items-center select-none">
