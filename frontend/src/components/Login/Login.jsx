@@ -17,6 +17,15 @@ function Login() {
   const { googleLoading, googleLogin } = useGoogleLogin();
   const [isdisabled, setIsdisabled] = useState(false);
 
+  const resetForm = () => {
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignup) signup(formData);
@@ -36,11 +45,18 @@ function Login() {
   }, [loginLoading, signuploading, googleLoading]);
 
   return (
-    <dialog id="login_modal" className="modal modal-bottom sm:modal-middle">
+    <dialog
+      id="login_modal"
+      className="modal modal-bottom sm:modal-middle"
+      onClose={resetForm}
+    >
       <div className="modal-box">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
-          <button className="btn btn-circle btn-ghost absolute right-3 top-4 text-lg">
+          <button
+            className="btn btn-circle btn-ghost absolute right-3 top-4 text-lg"
+            onClick={resetForm}
+          >
             ✕
           </button>
         </form>
@@ -144,7 +160,11 @@ function Login() {
 
           <div className="divider">OR</div>
 
-          <button className="btn w-full" disabled={isdisabled} onClick={googleLogin}>
+          <button
+            className="btn w-full"
+            disabled={isdisabled}
+            onClick={googleLogin}
+          >
             {isdisabled ? (
               <span className="loading loading-spinner loading-md"></span>
             ) : (
