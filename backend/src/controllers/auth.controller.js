@@ -48,6 +48,15 @@ const signin = async (req, res) => {
     if (!existingUser)
       return res.json({ error: "Incorrect username or password" }).status(400);
 
+    //add check if email used in google auth
+    if (existingUser.googleId) {
+      return res.json({
+        error: "This email is already used for Google authentication.",
+      }).status(400);
+    }
+    //check if password is correct
+    if (!password) return res.json({ error: "empty password" }).status(400);
+
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch)
       return res.json({ error: "Incorrect username or password" }).status(400);
