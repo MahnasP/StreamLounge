@@ -31,12 +31,7 @@ function App() {
 
   return (
     <>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: { borderRadius: "50px", padding: "10px 20px", zIndex: 9999 },
-        }}
-      />
+      
       <div className="flex justify-center items-center h-screen w-full overflow-hidden">
         <Sidebar open={sidebaropen} setOpen={setSidebarOpen} />
 

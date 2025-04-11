@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import CardSkeleton from "../../components/CardSkeleton";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import useLogout from "../../hooks/useLogout";
 
 function Dashboard() {
   const [mostPopular, setMostPopular] = useState([]);
@@ -15,6 +16,7 @@ function Dashboard() {
   const [news, setNews] = useState([]);
   const [user, setUser] = useState({});
   const isAuthenticated = useSelector((state) => state.auth.status);
+  const {logout}=useLogout();
 
   const { getMostPopular, getPodcastByCategory } = usePodcastApi();
 
@@ -50,6 +52,10 @@ function Dashboard() {
       }
     } catch (error) {
       console.error(error);
+      if (error.response.status === 401) {
+        toast.error("Session expired, please login again");
+        logout();
+      }
       toast.error("Error in fetching user");
     } finally {
       setLoading(false);

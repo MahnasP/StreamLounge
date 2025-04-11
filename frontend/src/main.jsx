@@ -21,6 +21,7 @@ import store from "./store/store.js";
 
 import PodcastDetails from "./pages/PodcastDetails/PodcastDetails.jsx";
 import useTheme from "./hooks/useTheme.jsx";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -78,6 +79,16 @@ function AppWrapper() {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Toaster
+        position="top-center"
+        containerStyle={{
+          position: 'relative',
+          zIndex: 99999, // Ensure this value is higher than the dialog's z-index
+        }}
+        toastOptions={{
+          style: { borderRadius: "50px", padding: "10px 20px", position: 'relative', zIndex: 9999 },
+        }}
+      />
     <AppWrapper />
   </StrictMode>
 );
