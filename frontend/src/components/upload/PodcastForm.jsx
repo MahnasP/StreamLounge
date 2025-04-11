@@ -100,13 +100,16 @@ function PodcastForm() {
 
     try {
       setLoading(true);
-      await axios.post("/api/podcast/create", formData, {
+      const res=await axios.post(`${import.meta.env.VITE_API_URL}/api/podcast/create`, formData, {
         headers: {
           // "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Podcast/Series created successfully!");
+      if (res.data) {
+        toast.success("Podcast/Series created successfully!");
+        resetPodcastData();
+      }
     } catch (error) {
       console.error("Error creating podcast:", error);
       toast.error("Error creating podcast:", error.message);
@@ -187,7 +190,7 @@ function PodcastForm() {
                   {episodeObjects.map((episode, index) => (
                     <li
                       key={index}
-                      className="bg-base-200 rounded-full flex justify-between px-5 py-3"
+                      className="bg-base-200 rounded-full flex justify-between px-5 py-3 mb-3"
                     >
                       <span className="font-medium truncate">
                         {episode.name}

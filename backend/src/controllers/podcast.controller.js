@@ -184,7 +184,7 @@ const createPodcast = async (req, res) => {
     });
 
     if (podcast) {
-      res.status(201).json(podcast.name);
+      res.status(201).json(podcast);
     }
   } catch (error) {
     console.log("Error in createPodcast: ", error.message);

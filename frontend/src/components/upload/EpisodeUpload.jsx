@@ -18,13 +18,13 @@ function EpisodeUpload({ onEpisodeUploaded }) {
       mediaType: "video",
       file: null,
     });
-  }
+  };
 
   const validateData = () => {
     if (!episodeData.file || !episodeData.name || !episodeData.desc)
       return false;
     return true;
-  }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +36,7 @@ function EpisodeUpload({ onEpisodeUploaded }) {
   };
 
   const handleUploadEpisode = async () => {
-    if (!validateData())
-    {
+    if (!validateData()) {
       return toast.error("Fill all fields to proceed.");
     }
     const formData = new FormData();
@@ -47,7 +46,6 @@ function EpisodeUpload({ onEpisodeUploaded }) {
     formData.append("file", episodeData.file);
 
     const token = localStorage.getItem("streamLoungeToken");
-    console.log(token);
 
     try {
       setLoading(true);
@@ -57,15 +55,14 @@ function EpisodeUpload({ onEpisodeUploaded }) {
         {
           headers: {
             // "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        },
-        
+        }
       );
       const episode = response.data;
       if (episode) onEpisodeUploaded(episode);
     } catch (error) {
-      toast.error("error uploading episode: "+ error);
+      toast.error("error uploading episode: " + error);
     } finally {
       setLoading(false);
       resetEpisodeData();
@@ -112,6 +109,7 @@ function EpisodeUpload({ onEpisodeUploaded }) {
           <button
             className="btn btn-primary mt-4"
             onClick={handleUploadEpisode}
+            disabled={loading}
           >
             {loading ? (
               <span className="loading loading-spinner loading-md"></span>
