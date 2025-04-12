@@ -63,7 +63,7 @@ function Card({ podcast, user }) {
       </figure>
       <button
         onClick={handleFavClick}
-        className="absolute top-2 right-2 btn btn-ghost"
+        className="absolute top-2 right-2 btn btn-circle btn-ghost text-accent"
       >
         {isFav ? <MdFavorite size={"1.5em"} /> : <GrFavorite size={"1.5em"} />}
       </button>

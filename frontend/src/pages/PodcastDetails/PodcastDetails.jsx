@@ -140,7 +140,7 @@ function PodcastDetails() {
               <img
                 src={podcast.thumbnail}
                 alt="thumbnail"
-                className="max-w-sm rounded-lg shadow-2xl"
+                className="max-md:max-w-xs max-w-sm rounded-lg shadow-2xl"
               />
               <div>
                 <h1 className="text-3xl md:text-5xl font-bold">
