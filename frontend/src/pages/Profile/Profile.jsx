@@ -52,34 +52,30 @@ function Profile() {
     </div>
   ) : (
     isAuthenticated && (
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full overflow-scroll">
         <div className="hero">
           <div className="hero-content flex-col lg:flex-row">
             <img
-              src= {user.profilepic}
-                alt="user profile"
+              src={user.profilepic}
+              alt="user profile"
               className="max-w-40 lg:max-w-52 rounded-full shadow-2xl"
             />
             <div>
               <h1 className="text-5xl font-bold">{user.name}</h1>
-              <p className="py-6 ml-1">
-                {user.email}
-              </p>
-              
+              <p className="py-6 ml-1">{user.email}</p>
             </div>
           </div>
         </div>
-        <CategoryContainer title={"Your Uploads"} >
-        {loading ? (
-          <CardSkeleton />
-        ) : !user.podcast || user.podcasts?.length === 0 ? (
-          <p>No series/podcasts</p>
-        ) : (
-          user.podcasts
-            .map((podcast) => (
+        <CategoryContainer title={"Your Uploads"}>
+          {loading ? (
+            <CardSkeleton />
+          ) : !user.podcasts || user.podcasts.length === 0 ? (
+            <p>No series/podcasts</p>
+          ) : (
+            user.podcasts.map((podcast) => (
               <Card key={podcast._id} podcast={podcast} user={user} />
             ))
-        )}
+          )}
         </CategoryContainer>
       </div>
     )

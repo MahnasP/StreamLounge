@@ -1,7 +1,6 @@
 import { User } from "../models/user.model.js";
 
 const getUser = async (req, res) => {
-  
   try {
     const user = await User.findById(req.user.id)
       .populate({
